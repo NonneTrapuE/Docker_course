@@ -42,19 +42,61 @@ Les images peuvent être disponibles publiquement ou de façon privées
 ### Fonctionnement
 
 
-                                    ---------------------               ---------------------       
-                                    |    Docker Host    |
-                                    |                   |
-                                    |                   | 
-      -------------------           |                   |
-      |  Docker Client  |  ------>  |                   |
-      -------------------           |                   | 
-                                    |                   |
-                                    |                   |
-                                    |                   | 
-                                    |                   |
-                                    |                   |
-                                    ---------------------               ---------------------
+                                    ---------------------               ----------------------       
+                                    |    Docker Host    |               |  Docker Registry   |
+                                    |                   |               |                    |
+                                    |   -------------   |               |    -----------     |
+      -------------------           |  |Docker Engine|  |               |   |  Image 1  |    |
+      |  Docker Client  |  ------>  |   -------------   |  -------->    |    -----------     |
+      -------------------           |   -------------   |  <--------    |    -----------     |
+                                    |  | Conteneur 1 |  |               |   |  Image 2  |    |
+                                    |   -------------   |               |    -----------     |
+                                    |   -------------   |               |    -----------     |
+                                    |  | Conteneur 2 |  |               |   |  Image 3  |    |
+                                    |   -------------   |               |    -----------     |
+                                    ---------------------               ----------------------
 
 
+## Utiliser Docker
 
+### Exploiter les images Docker
+
+#### Afficher les images présentes sur la machine :
+
+```$> docker images```
+
+#### Rechercher les images sur le registry de Docker
+
+```$> docker search nom_image```
+
+ex: ```$> docker search nginx```
+
+#### Télécharger une image Docker
+
+```$> docker pull nom_image ```
+
+ex: ```$> docker pull nginx```
+
+#### ⚠️ Si aucun tag n'est précisé, l'image prend le tag par défaut : *latest* 
+
+ex : ```nginx:latest```
+
+#### Supprimer une image de Docker
+
+```$> docker rmi image_name:tag```
+
+exemple: ```$> docker rmi nginx:latest```
+
+⚠️ Si une image ne veut pas se supprimer, il y a possiblement conflit avec un container. En effet, une image ne peut être supprimée si elle est utilisée par un container, même si celui-ci n'est pas en fonctionnement.  Il faut obligatoirement forcer sa suppression.
+
+```$> docker rmi -f image_name:latest``` 
+
+#### Lister les containers
+
+```$> docker ps```
+
+ou 
+
+```$> docker ps -a``` 
+
+Pour afficher tous les containers, y compris ceux qui ne sont pas en fonctionnement.  
